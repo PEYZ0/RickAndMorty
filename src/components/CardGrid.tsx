@@ -11,7 +11,7 @@ function CardGrid(props: any) {
         flexWrap="wrap"
         alignContent="center"
         justifyContent="center"
-        width="70%"
+        width="80%"
 
       >
         {props.data.map((character: any) => (
