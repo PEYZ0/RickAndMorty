@@ -1,21 +1,41 @@
-import { Stack } from "@mui/material";
+import { Button, Stack } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
+import SearchIcon from "@mui/icons-material/Search";
+import { useState } from "react";
 
-export default function Filter() {
+export default function Filter(props: any) {
+  const [filter, setFilter] = useState<any>({
+    name: " ",
+    status: " ",
+    species: " ",
+    gender: " ",
+  });
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
     },
   });
   const style = {
-  width:"25%"
-}
+    width: "25%",
+  };
+
+  const handelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let id = e.target.id;
+    let value = e.target.value;
+
+    setFilter({ ...filter, [id]: value });
+  };
+  const handleSearch = () => {
+    props.setCurrentPage(0);
+    props.setName(filter.name);
+    props.fetchData(0);
+  };
 
   return (
     <>
@@ -28,12 +48,17 @@ export default function Filter() {
           width="50%"
           justifyContent="space-evenly"
         >
-          <TextField  sx={style} label="Name"></TextField>
+          <TextField
+            sx={style}
+            id="name"
+            label="Name"
+            onChange={handelChange}
+          ></TextField>
           <FormControl sx={style}>
-            <InputLabel id="demo-simple-select-label">Status</InputLabel>
+            <InputLabel id="status">Status</InputLabel>
             <Select
               labelId="demo-simple-select-label"
-              id="demo-simple-select"
+              id="status"
               label="Status"
             >
               <MenuItem value={10}>Alive</MenuItem>
@@ -41,20 +66,19 @@ export default function Filter() {
               <MenuItem value={30}>Unknown</MenuItem>
             </Select>
           </FormControl>
-          <TextField sx={style} label="Species"></TextField>
+          <TextField sx={style} id="species" label="Species"></TextField>
           <FormControl sx={style}>
-            <InputLabel id="demo-simple-select-label">Status</InputLabel>
-            <Select
-              labelId="demo-simple-select-label"
-              id="demo-simple-select"
-              label="Gender"
-            >
-              <MenuItem value={10}>unknown</MenuItem>
-              <MenuItem value={20}>Female</MenuItem>
-              <MenuItem value={30}>Male</MenuItem>
-              <MenuItem value={40}>Genderless</MenuItem>
+            <InputLabel id="status">Status</InputLabel>
+            <Select id="gender" label="Gender">
+              <MenuItem value={11}>unknown</MenuItem>
+              <MenuItem value={12}>Female</MenuItem>
+              <MenuItem value={13}>Male</MenuItem>
+              <MenuItem value={14}>Genderless</MenuItem>
             </Select>
           </FormControl>
+          <Button color="info" variant="contained" onClick={handleSearch}>
+            {<SearchIcon />}
+          </Button>
         </Stack>
       </ThemeProvider>
     </>
