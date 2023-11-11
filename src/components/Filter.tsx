@@ -12,9 +12,9 @@ import { useState } from "react";
 export default function Filter(props: any) {
   const [filter, setFilter] = useState<any>({
     name: " ",
-    status: " ",
+    status: "",
     species: " ",
-    gender: " ",
+    gender: "",
   });
   const darkTheme = createTheme({
     palette: {
@@ -24,7 +24,6 @@ export default function Filter(props: any) {
   const style = {
     width: "25%",
   };
-
   const handelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let id = e.target.id;
     let value = e.target.value;
@@ -60,7 +59,9 @@ export default function Filter(props: any) {
               labelId="demo-simple-select-label"
               id="status"
               label="Status"
+              value={filter.status}
             >
+              <MenuItem value={""}>None</MenuItem>
               <MenuItem value={10}>Alive</MenuItem>
               <MenuItem value={20}>Dead</MenuItem>
               <MenuItem value={30}>Unknown</MenuItem>
@@ -69,7 +70,8 @@ export default function Filter(props: any) {
           <TextField sx={style} id="species" label="Species"></TextField>
           <FormControl sx={style}>
             <InputLabel id="status">Status</InputLabel>
-            <Select id="gender" label="Gender">
+            <Select id="gender" label="Gender" value={filter.gender}>
+              <MenuItem value={""}>None</MenuItem>
               <MenuItem value={11}>unknown</MenuItem>
               <MenuItem value={12}>Female</MenuItem>
               <MenuItem value={13}>Male</MenuItem>
