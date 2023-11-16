@@ -9,11 +9,17 @@ function CardGrid(props: any) {
       mode: "dark",
     },
   });
+  const handleChange = (event:React.ChangeEvent<unknown>, value:number)=> {
+    props.setCurrentPage(value)
+  }
   return (
     <>
       <ThemeProvider theme={darkTheme}>
+      <Stack m={2}>
+          <Pagination count={props.totalPages}  page={props.currentPage} onChange={handleChange} />
+        </Stack>
         <CssBaseline />
-        {/* <Stack
+        {<Stack
           direction="row"
           flexWrap="wrap"
           alignContent="center"
@@ -29,10 +35,7 @@ function CardGrid(props: any) {
               species={character.species}
             />
           ))}
-        </Stack> */}
-        <Stack>
-          <Pagination count={42} />
-        </Stack>
+        </Stack>}
       </ThemeProvider>
     </>
   );

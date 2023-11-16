@@ -22,44 +22,14 @@ export default function App() {
   const [data, setData] = useState<Character[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
   const [name, setName] = useState<String>(" ");
 
     const fetchData = (page: number) => {
       fetch(`${baseUrl}?name=${name}&page=${page}`)
         .then((res) => res.json() as Promise<CharacterResponse>)
         .then((d) => {
-          if (!initialFetchComplete) {
-            setInitialFetchComplete(true);
-            return;
-          }
-          // Überprüfen, ob die Daten bereits in "data" vorhanden sind
-          const newData = d.results.filter((result) => {
-            return !data.some((existingData) => existingData.id === result.id);
-          });
-          setData((prevData) => [...prevData, ...newData]);
+          setData(d.results);
           setTotalPages(d.info.pages);
-          if (currentPage < d.info.pages) {
-            setCurrentPage(currentPage + 1);
-          }
-        })
-        .catch((error) => console.error("Error fetching data: ", error));
-    };
-    const fetchDataOveride = (page: number) => {
-      fetch(`${baseUrl}?name=${name}&page=${page}`)
-        .then((res) => res.json() as Promise<CharacterResponse>)
-        .then((d) => {
-          if (!initialFetchComplete) {
-            setInitialFetchComplete(true);
-            return;
-          }
-    
-          setData(d.results); // Direktes Überschreiben von data mit den neuen Daten
-          setTotalPages(d.info.pages);
-    
-          if (currentPage < d.info.pages) {
-            setCurrentPage(currentPage + 1);
-          }
         })
         .catch((error) => console.error("Error fetching data: ", error));
     };
@@ -68,13 +38,13 @@ export default function App() {
       if (currentPage <= totalPages) {
         fetchData(currentPage);
       }
-    }, [currentPage, data, initialFetchComplete, totalPages]);
+    }, [currentPage, name]);
 
   return (
     <div className="App" style={{ width: "100vw" }}>
       <Stack justifyContent="center" alignItems="center">
-        <Filter name={name} setName={setName}  setCurrentPage={setCurrentPage} fetchData={fetchDataOveride}/>
-        <CardGrid data={data} />
+        <Filter name={name} setName={setName}  setCurrentPage={setCurrentPage}/>
+        <CardGrid data={data} setCurrentPage={setCurrentPage} currentPage={currentPage} totalPages={totalPages} />
       </Stack>
     </div>
   );
