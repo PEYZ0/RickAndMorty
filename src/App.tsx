@@ -64,9 +64,11 @@ export default function App() {
         .catch((error) => console.error("Error fetching data: ", error));
     };
     
-  useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage, data, initialFetchComplete, name]);
+    useEffect(() => {
+      if (currentPage <= totalPages) {
+        fetchData(currentPage);
+      }
+    }, [currentPage, data, initialFetchComplete, totalPages]);
 
   return (
     <div className="App" style={{ width: "100vw" }}>
