@@ -41,7 +41,7 @@ export default function Filter(props: any) {
       <ThemeProvider theme={darkTheme}>
         <CssBaseline />
         <Stack
-          p={1}
+          m={2}
           spacing={1}
           direction="row"
           width="50%"
