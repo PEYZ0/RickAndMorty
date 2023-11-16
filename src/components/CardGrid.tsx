@@ -9,7 +9,7 @@ function CardGrid(props: any) {
       mode: "dark",
     },
   });
-  const handleChange = (event:React.ChangeEvent<unknown>, value:number)=> {
+  const handleChange = (event:React.ChangeEvent<unknown>,value:number)=> {
     props.setCurrentPage(value)
   }
   return (
