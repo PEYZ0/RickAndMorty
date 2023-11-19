@@ -3,6 +3,11 @@ import CardMedia from "@mui/material/CardMedia";
 import CardContent from "@mui/material/CardContent";
 import Stack from "@mui/material/Stack";
 import Chip from "@mui/material/Chip";
+import FemaleIcon from '@mui/icons-material/Female';
+import MaleIcon from '@mui/icons-material/Male';
+import BlockIcon from '@mui/icons-material/Block';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+
 
 export default function CardGrid(props:any) {
   const getStatusColor = (status: string) => {
@@ -14,6 +19,17 @@ export default function CardGrid(props:any) {
       return "default";
     }
   };
+  const showGender = (gender:string)=>{
+    if (gender == "Male"){
+      return(<MaleIcon color="primary"/>)
+    } else if ( gender == "Female"){
+      return(<FemaleIcon color="error"/>)
+    } else if(gender == "Genderless"){
+      return(<BlockIcon color="disabled"/>)
+    } else{
+      return(<QuestionMarkIcon/>)
+    }
+  }
 
   const statusColor = getStatusColor(props.status);
 
@@ -31,7 +47,8 @@ export default function CardGrid(props:any) {
       />
       <CardContent>
         <Stack>
-          <h2>{props.name}</h2>
+          
+          <h2>{showGender(props.gender)} {props.name}</h2>
           <Stack direction="row" spacing={1} justifyContent="center">
             <Chip color={ statusColor } label={props.status} />
             <Chip color="secondary" label={props.species} />

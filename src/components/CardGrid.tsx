@@ -9,8 +9,11 @@ function CardGrid(props: any) {
       mode: "dark",
     },
   });
-  const handleChange = (event:React.ChangeEvent<unknown>,value:number)=> {
-    props.setCurrentPage(value)
+  const handleChange = (e:React.ChangeEvent<unknown>,value:number)=> {
+    if (e){
+      props.setCurrentPage(value)
+    }
+   
   }
   return (
     <>
@@ -31,6 +34,7 @@ function CardGrid(props: any) {
               key={character.id}
               image={character.image}
               name={character.name}
+              gender={character.gender}
               status={character.status}
               species={character.species}
             />
