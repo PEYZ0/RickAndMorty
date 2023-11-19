@@ -26,10 +26,9 @@ export default function App() {
     name:' ',
     status:'',
     species:' ',
-    gender:' '
+    gender:''
   })
   const [name, setName] = useState<String>(" ");
-  const [status,setStatus]=useState<String>(" ")
 
   const fetchData = (page: number) => {
     fetch(`${baseUrl}?name=${filter.name}&status=${filter.status}&species=${filter.species}&gender=${filter.gender}&page=${page}`)

@@ -6,16 +6,10 @@ import MenuItem from "@mui/material/MenuItem";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import React, { useState } from "react";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export default function Filter(props: any) {
-  const [filter, setFilter] = useState<any>({
-    name: " ",
-    status: "",
-    species: " ",
-    gender: "",
-  });
+
   const darkTheme = createTheme({
     palette: {
       mode: "dark",
@@ -28,21 +22,21 @@ export default function Filter(props: any) {
     let id = e.target.id;
     let value = e.target.value;
 
-    props.setFilter({ ...filter, [id]: value });
+    props.setFilter({ ...props.filter, [id]: value });
   };
 
   const handelChangeStatus = (e: SelectChangeEvent) => {
     let id = "status";
     let value = e.target.value;
 
-    props.setFilter({ ...filter, [id]: value });
+    props.setFilter({ ...props.filter, [id]: value });
   };
 
   const handelChangeGender = (e: SelectChangeEvent) => {
     let id = "gender";
     let value = e.target.value;
 
-    props.setFilter({ ...filter, [id]: value });
+    props.setFilter({ ...props.filter, [id]: value });
   };
 
   const handleSearch = () => {
@@ -104,6 +98,7 @@ export default function Filter(props: any) {
           <Button color="info" variant="contained" onClick={handleSearch}>
             {<SearchIcon />}
           </Button>
+
         </Stack>
       </ThemeProvider>
     </>
