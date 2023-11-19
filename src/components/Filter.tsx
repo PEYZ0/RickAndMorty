@@ -3,11 +3,11 @@ import CssBaseline from "@mui/material/CssBaseline";
 import FormControl from "@mui/material/FormControl";
 import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
-import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
-import { useState } from "react";
+import React, { useState } from "react";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 export default function Filter(props: any) {
   const [filter, setFilter] = useState<any>({
@@ -28,11 +28,25 @@ export default function Filter(props: any) {
     let id = e.target.id;
     let value = e.target.value;
 
-    setFilter({ ...filter, [id]: value });
+    props.setFilter({ ...filter, [id]: value });
   };
+
+  const handelChangeStatus = (e: SelectChangeEvent) => {
+    let id = "status";
+    let value = e.target.value;
+
+    props.setFilter({ ...filter, [id]: value });
+  };
+
+  const handelChangeGender = (e: SelectChangeEvent) => {
+    let id = "gender";
+    let value = e.target.value;
+
+    props.setFilter({ ...filter, [id]: value });
+  };
+
   const handleSearch = () => {
     props.setCurrentPage(0);
-    props.setName(filter.name);
     props.fetchData(0);
   };
 
@@ -53,31 +67,40 @@ export default function Filter(props: any) {
             label="Name"
             onChange={handelChange}
           ></TextField>
+
           <FormControl sx={style}>
             <InputLabel id="status">Status</InputLabel>
             <Select
-              labelId="demo-simple-select-label"
               id="status"
               label="Status"
-              value={filter.status}
+              value={props.filter.status}
+              onChange={handelChangeStatus}
             >
               <MenuItem value={""}>None</MenuItem>
-              <MenuItem value={10}>Alive</MenuItem>
-              <MenuItem value={20}>Dead</MenuItem>
-              <MenuItem value={30}>Unknown</MenuItem>
+              <MenuItem value={"alive"}>Alive</MenuItem>
+              <MenuItem value={"dead"}>Dead</MenuItem>
+              <MenuItem value={"unknown"}>Unknown</MenuItem>
             </Select>
           </FormControl>
-          <TextField sx={style} id="species" label="Species"></TextField>
+
+          <TextField
+            sx={style}
+            id="species"
+            label="Species"
+            onChange={handelChange}
+          ></TextField>
+
           <FormControl sx={style}>
-            <InputLabel id="status">Status</InputLabel>
-            <Select id="gender" label="Gender" value={filter.gender}>
+            <InputLabel id="gender">Gender</InputLabel>
+            <Select id="gender" label="Gender" value={props.filter.gender} onChange={handelChangeGender}>
               <MenuItem value={""}>None</MenuItem>
-              <MenuItem value={11}>unknown</MenuItem>
-              <MenuItem value={12}>Female</MenuItem>
-              <MenuItem value={13}>Male</MenuItem>
-              <MenuItem value={14}>Genderless</MenuItem>
+              <MenuItem value={"unknown"}>unknown</MenuItem>
+              <MenuItem value={"female"}>Female</MenuItem>
+              <MenuItem value={"male"}>Male</MenuItem>
+              <MenuItem value={"genderless"}>Genderless</MenuItem>
             </Select>
           </FormControl>
+
           <Button color="info" variant="contained" onClick={handleSearch}>
             {<SearchIcon />}
           </Button>
