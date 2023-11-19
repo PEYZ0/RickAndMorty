@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Filter from "./components/Filter";
 import CardGrid from "./components/CardGrid";
 import { Stack } from "@mui/material";
@@ -22,38 +22,40 @@ export default function App() {
   const [data, setData] = useState<Character[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const [initialFetchComplete, setInitialFetchComplete] = useState(false);
+  const [filter,setFilter] = useState({
+    name:' ',
+    status:'',
+    species:' ',
+    gender:''
+  })
+  const [name, setName] = useState<String>(" ");
 
   const fetchData = (page: number) => {
-    fetch(`${baseUrl}?page=${page}`)
+    fetch(`${baseUrl}?name=${filter.name}&status=${filter.status}&species=${filter.species}&gender=${filter.gender}&page=${page}`)
       .then((res) => res.json() as Promise<CharacterResponse>)
       .then((d) => {
-        if (!initialFetchComplete) {
-          setInitialFetchComplete(true);
-          return;
-        }
-        // Überprüfen, ob die Daten bereits in "data" vorhanden sind
-        const newData = d.results.filter((result) => {
-          return !data.some((existingData) => existingData.id === result.id);
-        });
-        setData((prevData) => [...prevData, ...newData]);
+        setData(d.results);
         setTotalPages(d.info.pages);
-        if (currentPage < d.info.pages) {
-          setCurrentPage(currentPage + 1);
-        }
       })
       .catch((error) => console.error("Error fetching data: ", error));
   };
 
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage, data, initialFetchComplete]);
+    if (currentPage <= totalPages) {
+      fetchData(currentPage);
+    }
+  }, [currentPage, name]);
 
   return (
     <div className="App" style={{ width: "100vw" }}>
       <Stack justifyContent="center" alignItems="center">
-        <Filter />
-        <CardGrid data={data} />
+        <Filter fetchData={fetchData} setName={setName} setCurrentPage={setCurrentPage} filter={filter} setFilter={setFilter}/>
+        <CardGrid
+          data={data}
+          setCurrentPage={setCurrentPage}
+          currentPage={currentPage}
+          totalPages={totalPages}
+        />
       </Stack>
     </div>
   );
