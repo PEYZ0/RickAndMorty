@@ -47,7 +47,7 @@ export default function App() {
   }, [currentPage, name]);
 
   return (
-    <div className="App" style={{ width: "100vw" }}>
+    <div className="App">
       <Stack justifyContent="center" alignItems="center">
         <Filter fetchData={fetchData} setName={setName} setCurrentPage={setCurrentPage} filter={filter} setFilter={setFilter}/>
         <CardGrid
